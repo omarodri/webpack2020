@@ -2,7 +2,6 @@ const path = require("path");
 const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const webpack = require("webpack");
-const TerserJSPlugin = require("terser-webpack-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 module.exports = {
@@ -28,15 +27,17 @@ module.exports = {
                     {
                         loader: MiniCSSExtractPlugin.loader,
                     },
-                    // 'style-loader',
+                    // "style-loader",
                     "css-loader",
                 ],
             },
         ],
     },
     plugins: [
+        new webpack.HotModuleReplacementPlugin(),
         new HtmlWebpackPlugin({
-            title: "Webpack con Babel",
+            title: "Webpack con React & Babel",
+            template: path.resolve(__dirname, "index.html"),
             minify: {
                 collapseWhitespace: true,
                 removeComments: true,
@@ -51,7 +52,7 @@ module.exports = {
         }),
     ],
     optimization: {
-        minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+        minimizer: [new OptimizeCSSAssetsPlugin({})],
     },
     devServer: {
         host: "localhost",
